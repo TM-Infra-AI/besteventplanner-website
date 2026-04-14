@@ -24,6 +24,9 @@ jobs:
 
       - name: Deploy via SCP
         run: |
+          # 1. Sabse pehle Ubuntu runner ke andar se faltu cheezein delete karo
           shopt -s dotglob
-          rm -rf .git .github santaclauz_web.zip
-          scp -q -r * ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/public_html/
+          rm -rf .git .github etc logs mail public_ftp ssl tmp access-logs etc.zip santaclauz_web.zip
+          
+          # 2. Ab jo bacha (asli website files), use cPanel ke public_html me bhej do
+          scp -v -q -r * ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/public_html/
