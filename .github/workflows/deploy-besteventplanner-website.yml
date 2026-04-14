@@ -22,10 +22,8 @@ jobs:
         run: |
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy via rsync
+      - name: Deploy via SCP
         run: |
-          rsync -avz \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='santaclauz_web.zip' \
-            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/public_html/
+          shopt -s dotglob
+          rm -rf .git .github santaclauz_web.zip
+          scp -q -r * ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/public_html/
